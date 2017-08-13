@@ -23,4 +23,8 @@ The following **additional** features are implemented:
 
 - [ ] List anything else that you can get done to improve the app functionality!
 
-![iTip GIF](http://imgur.com/R9suJjZ)
+Walkthrough
+
+<p align="center">
+  <img src="./iTip_v1.gif"/>
+</p>
