@@ -24,10 +24,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        loadAndSetDefaults()
         billText.becomeFirstResponder()
         guestsLabel.text = "Guests # 1"
-        tipLabel.text = "Tip 0%"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        loadAndSetDefaults()
+        calculateBill()
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,7 +40,30 @@ class ViewController: UIViewController {
     }
 
     @IBAction func calculateBill(_ sender: AnyObject) {
-        
+        calculateBill()
+    }
+
+    @IBAction func guestSliderValueChanged(_ sender: UISlider) {
+        guestCount = Int(guestsSlider.value)
+        guestsLabel.text = "Guests # " + String(guestCount)
+    }
+    
+    @IBAction func tipSliderValueChanged(_ sender: UISlider) {
+        tipPercent = Int(tipSlider.value)
+        tipLabel.text = "Tip " + String(tipPercent) + "%"
+    }
+    @IBAction func onTap(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    private func loadAndSetDefaults() {
+        let defaults = UserDefaults.standard
+        let defaultTip = defaults.integer(forKey: "defaultTip")
+        tipLabel.text = "Tip " + String(defaultTip) + "%"
+        tipSlider.value = Float(defaultTip)
+    }
+    
+    private func calculateBill() {
         let amt = Float(billText.text!) ?? 0
         let currentGuestCount = Int(guestsSlider.value)
         
@@ -53,19 +80,5 @@ class ViewController: UIViewController {
         tipAmountLabel.text = String(format: "$%.2f", tipAmt)
         totalLabel.text = String(format: "$%.2f", total)
         splitLabel.text = String(format: "$%.2f", split)
-        
-    }
-
-    @IBAction func guestSliderValueChanged(_ sender: UISlider) {
-        guestCount = Int(guestsSlider.value)
-        guestsLabel.text = "Guests # " + String(guestCount)
-    }
-    
-    @IBAction func tipSliderValueChanged(_ sender: UISlider) {
-        tipPercent = Int(tipSlider.value)
-        tipLabel.text = "Tip " + String(tipPercent) + "%"
-    }
-    @IBAction func onTap(_ sender: UITapGestureRecognizer) {
-        view.endEditing(true)
     }
 }
